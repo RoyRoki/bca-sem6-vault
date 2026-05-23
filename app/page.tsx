@@ -121,9 +121,20 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="border-t border-border pt-4 pb-8">
-        <p className="text-xs text-muted-foreground/50 text-center">
-          Built from 6-year PYQ analysis · University of North Bengal · Roki Roy
+      <div className="border-t border-border pt-4 pb-8 text-center space-y-1">
+        <p className="text-xs text-muted-foreground/50">
+          Built from 6-year PYQ analysis · University of North Bengal
+        </p>
+        <p className="text-xs text-muted-foreground/40">
+          Made by{' '}
+          <a
+            href="https://rokiroy.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground/60 hover:text-muted-foreground underline underline-offset-2 transition-colors"
+          >
+            Roki Roy
+          </a>
         </p>
       </div>
     </div>

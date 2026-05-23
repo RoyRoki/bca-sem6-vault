@@ -122,10 +122,16 @@ function SidebarContent({ subjects, onSearch, onClose }: SidebarContentProps) {
         })}
       </nav>
 
-      <div className="px-4 py-3 border-t border-border">
-        <p className="text-[10px] text-muted-foreground/50">
-          BCA Sem 6 · University of North Bengal
-        </p>
+      <div className="px-4 py-3 border-t border-border space-y-0.5">
+        <p className="text-[10px] text-muted-foreground/50">BCA Sem 6 · University of North Bengal</p>
+        <a
+          href="https://rokiroy.in"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[10px] text-muted-foreground/40 hover:text-muted-foreground/70 transition-colors"
+        >
+          rokiroy.in ↗
+        </a>
       </div>
     </div>
   )
