@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BCA Sem 6 — Exam Vault
 
-## Getting Started
+A minimal, fast study platform for BCA Semester 6 exam preparation.  
+Built with Next.js 16 · TypeScript · Tailwind CSS · shadcn/ui
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Features
+
+- **34 static pages** — zero server-side overhead, instant loads
+- **Collapsible sidebar** with per-subject doc navigation
+- **⌘K global search** — fuzzy search across all notes
+- **Table of Contents** — sticky, auto-highlights current heading
+- **Reading progress bar** — thin top indicator
+- **Prev / Next navigation** between docs
+- **Priority badges** — 🔥 Important · 📘 PYQ · 📝 Revision · ✅ Notes · ⭐ Answers
+- **Markdown rendering** — GFM tables, code highlight, blockquotes
+- Fully **responsive** — mobile slide drawer + desktop sticky sidebar
+
+## Content Structure
+
+```
+content/
+├── MASTER_GUIDE.md
+├── AI/
+├── Information_Security/
+├── Mobile_Computing/
+└── Optimization_Technique/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Local Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+# Open http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deploy to Vercel
 
-## Learn More
+```bash
+npm i -g vercel@latest
+vercel login
+vercel --prod
+```
 
-To learn more about Next.js, take a look at the following resources:
+No environment variables needed — fully static SSG.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+University of North Bengal · BCA Semester 6 · NEP Curriculum

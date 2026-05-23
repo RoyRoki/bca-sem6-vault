@@ -1,7 +1,11 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  output: 'standalone',
+  // Allow reading local markdown files from content/ dir
+  serverExternalPackages: [],
+  // Turbopack is used in dev; this keeps prod builds standard
+  experimental: {},
+}
 
-export default nextConfig;
+export default nextConfig
