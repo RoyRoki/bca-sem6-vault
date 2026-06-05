@@ -6,8 +6,9 @@ import { TableOfContents } from '@/components/TableOfContents'
 import { extractHeadings } from '@/lib/headings'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { Clock, ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react'
+import { Clock, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { Metadata } from 'next'
+import { ReadAloud } from '@/components/ReadAloud'
 
 interface Props {
   params: Promise<{ subject: string; doc: string }>
@@ -76,6 +77,7 @@ export default async function DocPage({ params }: Props) {
                 <Clock className="size-3" />
                 <span className="text-xs">{doc.readingTime} min read</span>
               </div>
+              <ReadAloud content={content} />
             </div>
             <h1 className="text-xl font-semibold tracking-tight">{doc.title}</h1>
             {subject && (
@@ -86,7 +88,9 @@ export default async function DocPage({ params }: Props) {
           <Separator className="mb-6 bg-border" />
 
           {/* Markdown */}
-          <MarkdownRenderer content={content} />
+          <article>
+            <MarkdownRenderer content={content} />
+          </article>
 
           {/* Prev / Next nav */}
           {(prevDoc || nextDoc) && (
