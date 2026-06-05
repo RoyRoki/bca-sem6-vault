@@ -77,7 +77,7 @@ export default async function DocPage({ params }: Props) {
                 <Clock className="size-3" />
                 <span className="text-xs">{doc.readingTime} min read</span>
               </div>
-              <ReadAloud content={content} />
+              <ReadAloud content={content} title={doc.title} />
             </div>
             <h1 className="text-xl font-semibold tracking-tight">{doc.title}</h1>
             {subject && (
@@ -123,7 +123,7 @@ export default async function DocPage({ params }: Props) {
             </div>
           )}
 
-          <div className="pb-16" />
+          <div className="pb-28" />
         </div>
       </div>
 
