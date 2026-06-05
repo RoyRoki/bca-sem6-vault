@@ -143,14 +143,38 @@ export function ReadAloud({ content, title }: Props) {
     setActive(false)
   }, [])
 
-  const handleProgressClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+  const [dragProgress, setDragProgress] = useState<number | null>(null)
+  const isDraggingRef = useRef(false)
+
+  const getRatio = (e: React.PointerEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
-    seek(Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width)))
+    return Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
+  }
+
+  const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    e.currentTarget.setPointerCapture(e.pointerId)
+    isDraggingRef.current = true
+    setDragProgress(getRatio(e))
+  }, [])
+
+  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current) return
+    setDragProgress(getRatio(e))
+  }, [])
+
+  const handlePointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current) return
+    isDraggingRef.current = false
+    const ratio = getRatio(e)
+    setDragProgress(null)
+    seek(ratio)
   }, [seek])
 
   if (!supported) return null
 
-  const progress = chunksRef.current.length > 0 ? chunkIndex / chunksRef.current.length : 0
+  const playbackProgress = chunksRef.current.length > 0 ? chunkIndex / chunksRef.current.length : 0
+  // While dragging show drag position; otherwise show real playback position
+  const displayProgress = dragProgress ?? playbackProgress
 
   return (
     <>
@@ -175,23 +199,32 @@ export function ReadAloud({ content, title }: Props) {
           aria-label="Read Aloud player"
           className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border shadow-2xl"
         >
-          {/* Seekable progress track */}
+          {/* YouTube-style draggable progress bar */}
           <div
-            className="relative h-1 bg-muted cursor-pointer group"
-            onClick={handleProgressClick}
             role="slider"
             aria-label="Reading progress"
-            aria-valuenow={Math.round(progress * 100)}
+            aria-valuenow={Math.round(displayProgress * 100)}
             aria-valuemin={0}
             aria-valuemax={100}
+            className={`relative cursor-pointer select-none group ${isDraggingRef.current ? 'h-2' : 'h-1'}`}
+            style={{ touchAction: 'none' }}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
           >
+            {/* Track */}
+            <div className="absolute inset-0 bg-muted" />
+            {/* Fill */}
             <div
-              className="h-full bg-primary transition-[width] duration-300 ease-linear"
-              style={{ width: `${progress * 100}%` }}
+              className={`absolute inset-y-0 left-0 bg-primary ${dragProgress === null ? 'transition-[width] duration-300 ease-linear' : ''}`}
+              style={{ width: `${displayProgress * 100}%` }}
             />
+            {/* Thumb — always visible while dragging, hover-only otherwise */}
             <div
-              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 size-3 rounded-full bg-primary shadow opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-              style={{ left: `${progress * 100}%` }}
+              className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full bg-primary shadow-md pointer-events-none transition-[opacity,transform]
+                ${dragProgress !== null ? 'opacity-100 size-4 scale-100' : 'opacity-0 size-3 group-hover:opacity-100 group-hover:scale-100'}`}
+              style={{ left: `${displayProgress * 100}%` }}
             />
           </div>
 
